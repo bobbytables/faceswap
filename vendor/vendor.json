@@ -1,0 +1,57 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "5rPfda8jFccr3A6heL+JAmi9K9g=",
+			"origin": "github.com/stretchr/testify/vendor/github.com/davecgh/go-spew/spew",
+			"path": "github.com/davecgh/go-spew/spew",
+			"revision": "6fe211e493929a8aac0469b93f28b1d0688a9a3a",
+			"revisionTime": "2016-03-05T16:54:46Z"
+		},
+		{
+			"checksumSHA1": "GcaTbmmzSGqTb2X6qnNtmDyew1Q=",
+			"path": "github.com/pkg/errors",
+			"revision": "a2d6902c6d2a2f194eb3fb474981ab7867c81505",
+			"revisionTime": "2016-06-27T22:23:52Z"
+		},
+		{
+			"checksumSHA1": "zKKp5SZ3d3ycKe4EKMNT0BqAWBw=",
+			"origin": "github.com/stretchr/testify/vendor/github.com/pmezard/go-difflib/difflib",
+			"path": "github.com/pmezard/go-difflib/difflib",
+			"revision": "6fe211e493929a8aac0469b93f28b1d0688a9a3a",
+			"revisionTime": "2016-03-05T16:54:46Z"
+		},
+		{
+			"checksumSHA1": "Bn333k9lTndxU3D6n/G5c+GMcYY=",
+			"path": "github.com/stretchr/testify/assert",
+			"revision": "6fe211e493929a8aac0469b93f28b1d0688a9a3a",
+			"revisionTime": "2016-03-05T16:54:46Z"
+		},
+		{
+			"checksumSHA1": "P9FJpir2c4G5PA46qEkaWy3l60U=",
+			"path": "github.com/stretchr/testify/require",
+			"revision": "6fe211e493929a8aac0469b93f28b1d0688a9a3a",
+			"revisionTime": "2016-03-05T16:54:46Z"
+		},
+		{
+			"checksumSHA1": "zxA5c9WSpUYfg2SCWX/GuRTuALE=",
+			"path": "golang.org/x/tools/go/ast/astutil",
+			"revision": "9deed8c6c1c89e0b6d68d727f215de8e851d1064",
+			"revisionTime": "2016-08-29T18:36:23Z"
+		},
+		{
+			"checksumSHA1": "AVET+5jDH2MEvtFi1I22DFHJswI=",
+			"path": "golang.org/x/tools/go/buildutil",
+			"revision": "9deed8c6c1c89e0b6d68d727f215de8e851d1064",
+			"revisionTime": "2016-08-29T18:36:23Z"
+		},
+		{
+			"checksumSHA1": "oP1vuCE1PtUjnt+HMX+SvIUG4II=",
+			"path": "golang.org/x/tools/go/loader",
+			"revision": "9deed8c6c1c89e0b6d68d727f215de8e851d1064",
+			"revisionTime": "2016-08-29T18:36:23Z"
+		}
+	],
+	"rootPath": "github.com/bobbytables/faceswap"
+}
