@@ -10,4 +10,5 @@ type FakeInterface interface {
 	C_MultiReturn() (string, error)
 	D_MultiReturnCustomType() (*CustomType, error)
 	E_CustomReturn(ce *CustomType) *CustomType
+	F_VariadicInput(ce ...*CustomType)
 }

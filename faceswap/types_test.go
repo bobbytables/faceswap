@@ -1,8 +1,6 @@
 package faceswap
 
 import (
-	"go/types"
-	"sort"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -19,8 +17,8 @@ func TestInterfaceExposesMethods(t *testing.T) {
 		"C_MultiReturn",
 		"D_MultiReturnCustomType",
 		"E_CustomReturn",
+		"F_VariadicInput",
 	}
-	sort.Strings(availableMethods)
 
 	t.Run("Methods() returns the methods on the interface", func(t *testing.T) {
 		assert.Equal(t, "FakeInterface", iface.Name)
@@ -33,7 +31,7 @@ func TestInterfaceExposesMethods(t *testing.T) {
 
 		assert.Equal(t, availableMethods[0], method.Name)
 		require.Len(t, method.Parameters, 1, "parameters on the method")
-		assert.IsType(t, types.Typ[types.String], method.Parameters[0].Type)
+		assert.Equal(t, "string", method.Parameters[0].Type.String())
 	})
 
 	t.Run("Methods() has custom types for parameters", func(t *testing.T) {
@@ -51,5 +49,14 @@ func TestInterfaceExposesMethods(t *testing.T) {
 		require.Len(t, method.Returns, 2, "returns on the method")
 		assert.Equal(t, "*github.com/bobbytables/faceswap/faceswap/dummy.CustomType", method.Returns[0].Type.String())
 		assert.Equal(t, "error", method.Returns[1].Type.String())
+	})
+
+	t.Run("Methods() returns methods with variadic parameters", func(t *testing.T) {
+		method := iface.Methods()[5]
+
+		require.Len(t, method.Returns, 0, "returns on the method")
+		require.Len(t, method.Parameters, 1, "parameters")
+
+		assert.True(t, method.Variadic)
 	})
 }

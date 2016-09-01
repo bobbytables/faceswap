@@ -24,6 +24,8 @@ type Method struct {
 	Name       string
 	Parameters []Tuple
 	Returns    []Tuple
+
+	Variadic bool
 }
 
 // Tuple represents something that can be used as a parameter or return value
@@ -75,8 +77,11 @@ func (i *Interface) Methods() []Method {
 }
 
 func methodFromFunc(f *types.Func) Method {
+	s := f.Type().(*types.Signature)
+
 	return Method{
 		Name:       f.Name(),
+		Variadic:   s.Variadic(),
 		Parameters: parametersFromFunc(f),
 		Returns:    returnsFromFunc(f),
 	}
