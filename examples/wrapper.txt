@@ -1,9 +1,10 @@
-package wrapper
+package server
 
-type {{ .Name }}Wrapper struct {}
+{{ $wrapperName := printf "%s%s" .Name "Wrapper" }}
+type {{ $wrapperName }} struct {}
 
 {{ range .Methods }}
-func (w *Wrapper) {{ .Name }}({{ varList .Parameters }}) ({{ varList .Returns }}) {
+func (w *{{ $wrapperName }}) {{ .Name }}({{ varListNamed .Parameters "ctx" "in" }}) ({{ varListNamed .Returns "out" "err" }}) {
 
 }
 {{ end }}
