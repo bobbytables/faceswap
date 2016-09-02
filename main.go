@@ -86,7 +86,6 @@ func generate(cli *cli.Context) error {
 		Funcs(render.RenderFuncs).
 		Parse(string(content))
 
-	// t, err := template.ParseFiles(templateFile)
 	if err != nil {
 		return errors.Wrap(err, "could not parse template")
 	}
