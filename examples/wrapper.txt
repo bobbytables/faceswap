@@ -1,0 +1,9 @@
+package wrapper
+
+type {{ .Name }}Wrapper struct {}
+
+{{ range .Methods }}
+func (w *Wrapper) {{ .Name }}({{ varList .Parameters }}) ({{ varList .Returns }}) {
+
+}
+{{ end }}

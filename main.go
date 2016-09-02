@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 	"text/template"
 
 	"github.com/bobbytables/faceswap/faceswap"
-	"github.com/bobbytables/faceswap/template"
+	"github.com/bobbytables/faceswap/render"
 	"github.com/pkg/errors"
 	"github.com/urfave/cli"
 )
@@ -76,7 +77,16 @@ func generate(cli *cli.Context) error {
 		Methods: i.Methods(),
 	}
 
-	t, err := template.ParseFiles(templateFile)
+	content, err := ioutil.ReadFile(templateFile)
+	if err != nil {
+		return err
+	}
+
+	t, err := template.New("custom").
+		Funcs(render.RenderFuncs).
+		Parse(string(content))
+
+	// t, err := template.ParseFiles(templateFile)
 	if err != nil {
 		return errors.Wrap(err, "could not parse template")
 	}
