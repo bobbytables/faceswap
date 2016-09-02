@@ -2,34 +2,89 @@ package main
 
 import (
 	"fmt"
-	"go/types"
+	"os"
+	"text/template"
 
 	"github.com/bobbytables/faceswap/faceswap"
-
-	"golang.org/x/tools/go/loader"
+	"github.com/bobbytables/faceswap/template"
+	"github.com/pkg/errors"
+	"github.com/urfave/cli"
 )
 
-var pkgPath = "github.com/bobbytables/gangway/events"
+const (
+	version string = "0.1.0"
+)
+
+var (
+	interfaceSearch string
+	templateFile    string
+)
 
 func main() {
-	var conf loader.Config
-	conf.Import(pkgPath)
-	prog, err := conf.Load()
+	app := cli.NewApp()
+	app.Name = "faceswap"
+	app.Usage = "Takes Go interfaces and allows you to create files from them using Go templating."
+	app.Version = version
+	app.Authors = []cli.Author{
+		{
+			Name:  "Robert Ross",
+			Email: "robert@creativequeries.com",
+		},
+	}
+
+	app.Commands = []cli.Command{generateCmd()}
+	app.Run(os.Args)
+}
+
+func generateCmd() cli.Command {
+	return cli.Command{
+		Name:      "generate",
+		ShortName: "g",
+		Usage: `The name of a package and interface defined within it to be loaded
+
+		Using the fmt.Stringer interface would look like:
+
+		"fmt".Stringer
+
+		A custom interface lookup could be like:
+
+		"github.com/bobbytables/faceswap/faceswap/dummy".FakeInterface`,
+		Flags: []cli.Flag{
+			cli.StringFlag{
+				Name:        "interface",
+				Usage:       "The interface lookup",
+				Destination: &interfaceSearch,
+			},
+			cli.StringFlag{
+				Name:        "template",
+				Usage:       "The file defining the template to be used on generation",
+				Destination: &templateFile,
+			},
+		},
+		Action: generate,
+	}
+}
+
+func generate(cli *cli.Context) error {
+	i, err := faceswap.Resolve(interfaceSearch)
 	if err != nil {
-		panic(err)
+		return errors.Wrap(err, "could not resolve package")
 	}
 
-	pkgInfo := prog.Package(pkgPath)
-	obj := pkgInfo.Pkg.Scope().Lookup("Listener")
-	t := obj.Type()
-	fmt.Printf("%+v\n", t.Underlying())
-	iface, ok := t.Underlying().(*types.Interface)
-	if !ok {
-		panic("Type searched was not an interface")
+	it := render.InterfaceTemplate{
+		Name:    i.Name,
+		Methods: i.Methods(),
 	}
 
-	fi := faceswap.NewInterface("Listener", iface)
-	fmt.Println(fi.Methods()[0].Name)
+	t, err := template.ParseFiles(templateFile)
+	if err != nil {
+		return errors.Wrap(err, "could not parse template")
+	}
 
-	fmt.Printf("PkgInfo: %+v\n", obj)
+	err = t.Execute(os.Stdout, it)
+	if err != nil {
+		return errors.Wrap(err, "could not execute template")
+	}
+	fmt.Println()
+	return nil
 }

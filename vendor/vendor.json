@@ -35,6 +35,12 @@
 			"revisionTime": "2016-03-05T16:54:46Z"
 		},
 		{
+			"checksumSHA1": "hMgsA75EXstfPmSOleRFJjm7VfQ=",
+			"path": "github.com/urfave/cli",
+			"revision": "33bb4c121333cd8eb7d8cc8d74474f4ec156f371",
+			"revisionTime": "2016-08-28T20:23:14Z"
+		},
+		{
 			"checksumSHA1": "zxA5c9WSpUYfg2SCWX/GuRTuALE=",
 			"path": "golang.org/x/tools/go/ast/astutil",
 			"revision": "9deed8c6c1c89e0b6d68d727f215de8e851d1064",

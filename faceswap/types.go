@@ -15,8 +15,9 @@ var ErrNotAnInterface = errors.New("not an interface")
 // on a *types.Interface.
 // This allows for easy interaction inside of a Go template-esque file.
 type Interface struct {
-	iface *types.Interface
-	Name  string
+	iface   *types.Interface
+	Name    string
+	Package string
 }
 
 // Method represents a method on an interface in Go
@@ -53,14 +54,15 @@ func InterfaceFromPackage(path, name string) (*Interface, error) {
 		return nil, ErrNotAnInterface
 	}
 
-	return NewInterface(name, obj.Type().Underlying().(*types.Interface)), nil
+	return NewInterface(path, name, obj.Type().Underlying().(*types.Interface)), nil
 }
 
 // NewInterface returns an initialized Interface from an internal Go type.
-func NewInterface(name string, i *types.Interface) *Interface {
+func NewInterface(pkg, name string, i *types.Interface) *Interface {
 	return &Interface{
-		Name:  name,
-		iface: i,
+		Name:    name,
+		Package: pkg,
+		iface:   i,
 	}
 }
 
@@ -68,8 +70,8 @@ func NewInterface(name string, i *types.Interface) *Interface {
 func (i *Interface) Methods() []Method {
 	var methods []Method
 
-	for n := 0; n < i.iface.NumExplicitMethods(); n++ {
-		f := i.iface.ExplicitMethod(n)
+	for n := 0; n < i.iface.NumMethods(); n++ {
+		f := i.iface.Method(n)
 		methods = append(methods, methodFromFunc(f))
 	}
 
