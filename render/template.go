@@ -3,6 +3,7 @@ package render
 import (
 	"errors"
 	"fmt"
+	"go/types"
 	"strings"
 	"text/template"
 
@@ -17,6 +18,7 @@ var ErrVarCountMismatch = errors.New("tuples and name count does not match")
 // Go interface.
 type InterfaceTemplate struct {
 	Name    string
+	Package *types.Package
 	Methods []faceswap.Method
 }
 
@@ -26,10 +28,20 @@ var RenderFuncs = template.FuncMap{
 	"varListNamed": varListNamed,
 }
 
+// ShortQualifier handles pretty-printing types for varLists in templates.
+// The default printing of types.Type includes the fully qualified package name.
+// This returns only the exported package name to prevent type names being
+// *github.com/bobbytables/faceswap/type.Type and instead make them *type.Type
+// Checkout: https://godoc.org/go/types#Qualifier
+func ShortQualifier(p *types.Package) string {
+	return p.Name()
+}
+
 func varList(tuples []faceswap.Tuple) string {
 	var args []string
 	for _, t := range tuples {
-		formatted := fmt.Sprintf("%s %s", t.Name, t.Type.String())
+		typ := types.TypeString(t.Type, ShortQualifier)
+		formatted := fmt.Sprintf("%s %s", t.Name, typ)
 		args = append(args, strings.TrimSpace(formatted))
 	}
 

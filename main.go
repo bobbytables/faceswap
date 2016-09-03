@@ -75,6 +75,7 @@ func generate(cli *cli.Context) error {
 	it := render.InterfaceTemplate{
 		Name:    i.Name,
 		Methods: i.Methods(),
+		Package: i.Package,
 	}
 
 	content, err := ioutil.ReadFile(templateFile)

@@ -39,7 +39,7 @@ func TestResolver(t *testing.T) {
 			i, err := Resolve(tc.path)
 
 			require.Nil(t, err)
-			assert.Equal(t, tc.packagePath, i.Package)
+			assert.Equal(t, tc.packagePath, i.Package.Path())
 			assert.Equal(t, tc.interfaceName, i.Name)
 		})
 	}

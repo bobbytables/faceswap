@@ -1,1 +1,6 @@
 Total Methods on {{ .Name }}: {{ len .Methods }}
+
+Methods:
+{{ range .Methods }}
+Method: {{ .Name }}, Parameters: {{ varList .Parameters }}, Returns: {{ varList .Returns }}
+{{ end }}

@@ -15,9 +15,10 @@ var ErrNotAnInterface = errors.New("not an interface")
 // on a *types.Interface.
 // This allows for easy interaction inside of a Go template-esque file.
 type Interface struct {
-	iface   *types.Interface
-	Name    string
-	Package string
+	iface       *types.Interface
+	Name        string
+	Package     *types.Package
+	AllPackages map[*types.Package]*loader.PackageInfo
 }
 
 // Method represents a method on an interface in Go
@@ -33,6 +34,7 @@ type Method struct {
 type Tuple struct {
 	Name string
 	Type types.Type
+	Pkg  *types.Package
 }
 
 // InterfaceFromPackage loads a package and looks up an interface inside of it
@@ -54,16 +56,12 @@ func InterfaceFromPackage(path, name string) (*Interface, error) {
 		return nil, ErrNotAnInterface
 	}
 
-	return NewInterface(path, name, obj.Type().Underlying().(*types.Interface)), nil
-}
-
-// NewInterface returns an initialized Interface from an internal Go type.
-func NewInterface(pkg, name string, i *types.Interface) *Interface {
 	return &Interface{
-		Name:    name,
-		Package: pkg,
-		iface:   i,
-	}
+		Name:        name,
+		Package:     pkgInfo.Pkg,
+		AllPackages: prog.AllPackages,
+		iface:       obj.Type().Underlying().(*types.Interface),
+	}, nil
 }
 
 // Methods returns all of the methods on the interface
@@ -95,7 +93,7 @@ func parametersFromFunc(f *types.Func) []Tuple {
 	s := f.Type().(*types.Signature)
 	for i := 0; i < s.Params().Len(); i++ {
 		v := s.Params().At(i)
-		params = append(params, Tuple{Name: v.Name(), Type: v.Type()})
+		params = append(params, Tuple{Name: v.Name(), Type: v.Type(), Pkg: v.Pkg()})
 	}
 
 	return params
@@ -107,7 +105,7 @@ func returnsFromFunc(f *types.Func) []Tuple {
 	s := f.Type().(*types.Signature)
 	for i := 0; i < s.Results().Len(); i++ {
 		v := s.Results().At(i)
-		returns = append(returns, Tuple{Name: v.Name(), Type: v.Type()})
+		returns = append(returns, Tuple{Name: v.Name(), Type: v.Type(), Pkg: v.Pkg()})
 	}
 
 	return returns

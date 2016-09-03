@@ -1,10 +1,16 @@
 package server
 
 {{ $wrapperName := printf "%s%s" .Name "Wrapper" }}
-type {{ $wrapperName }} struct {}
+type {{ $wrapperName }} struct {
+  app {{ .Package.Name }}.{{ .Name }}
+}
 
 {{ range .Methods }}
 func (w *{{ $wrapperName }}) {{ .Name }}({{ varListNamed .Parameters "ctx" "in" }}) ({{ varListNamed .Returns "out" "err" }}) {
+  dispatch("{{ .Name }}", ctx, func(ctx context.Context) {
+    out, err = w.app.{{ .Name }}(ctx, in)
+  })
 
+  return
 }
 {{ end }}
