@@ -3,6 +3,18 @@
 	"ignore": "test",
 	"package": [
 		{
+			"checksumSHA1": "auvMT28eaaLXHzfMRy4NvmOZghU=",
+			"path": "github.com/Masterminds/sprig",
+			"revision": "89eb6984259918bffe1ddff9647b9ed06061e688",
+			"revisionTime": "2016-08-19T18:11:42Z"
+		},
+		{
+			"checksumSHA1": "ryixco0k3QlLFtp7a1x2jznl7OY=",
+			"path": "github.com/aokoli/goutils",
+			"revision": "9c37978a95bd5c709a15883b6242714ea6709e64",
+			"revisionTime": "2014-05-02T00:11:28Z"
+		},
+		{
 			"checksumSHA1": "5rPfda8jFccr3A6heL+JAmi9K9g=",
 			"origin": "github.com/stretchr/testify/vendor/github.com/davecgh/go-spew/spew",
 			"path": "github.com/davecgh/go-spew/spew",
