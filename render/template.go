@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 	"go/types"
+	"html/template"
 	"strings"
-	"text/template"
 
 	"github.com/bobbytables/faceswap/faceswap"
 )

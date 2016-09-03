@@ -2,12 +2,14 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"io/ioutil"
 	"os"
-	"text/template"
 
 	"github.com/bobbytables/faceswap/faceswap"
 	"github.com/bobbytables/faceswap/render"
+
+	"github.com/Masterminds/sprig"
 	"github.com/pkg/errors"
 	"github.com/urfave/cli"
 )
@@ -85,6 +87,7 @@ func generate(cli *cli.Context) error {
 
 	t, err := template.New("custom").
 		Funcs(render.RenderFuncs).
+		Funcs(sprig.FuncMap()).
 		Parse(string(content))
 
 	if err != nil {

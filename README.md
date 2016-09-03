@@ -59,6 +59,12 @@ Faceswap provides 2 functions that are useful for parameter / return lists.
 
 This is nice if you're attempting to render the parameters as they are defined for things such as middlewares or mocks.
 
+## Examples
+
+There is a directory of examples that you can checkout!
+
+[Check em' out](examples/)
+
 ## Contributing
 
 Fork and Pull Requests are more than welcome for Faceswap. You can also chat me on the #Gophers Slack channel, @bobbytables

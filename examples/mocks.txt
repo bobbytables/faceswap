@@ -1,0 +1,22 @@
+package mocks
+
+import "github.com/stretchr/testify/mock"
+
+{{ $iName := .Name }}
+type {{ $iName }} struct {
+  mock.Mock
+}
+
+{{ range .Methods }}
+func (m *{{ $iName }}) {{ .Name }}({{ varList .Parameters }}) ({{ varList .Returns }}) {
+  ret := m.Called({{ range .Parameters }}{{ .Name }}{{ end }})
+
+  {{- $paramLen := len .Parameters }}
+
+  return {{- range $index, $element := .Returns }}
+    {{- printf " m.Get(%d).(%s)" $index $element.Type }}
+    {{- if le (add1 $index) $paramLen }},{{ end }}
+  {{- end }}
+}
+
+{{ end }}
